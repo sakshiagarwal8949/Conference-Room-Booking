@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>W-Space | Bengaluru Workspace</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .places-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .place-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+            cursor: pointer;
+            text-align: center;
+        }
+        .place-card:hover {
+            transform: translateY(-5px);
+        }
+        .place-card i {
+            font-size: 50px;
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
+        .faq-section {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+        }
+        .faq-item {
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        .faq-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .faq-answer {
+            display: none;
+            padding-top: 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">W-Space</div>
+        <ul class="nav-links">
+             <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#solutions">Solutions</a></li>
+            <li><a href="index.html#locations">Locations</a></li>
+            <li><a href="index.html#amenities">Amenities</a></li>
+            <li><a href="whitefield.html#booking">Book Now</a></li>
+            <li><a href="about.html">About us</a></li>
+        </ul>
+        <div class="user-controls">
+            <span id="user-status" class="user-status">You are not logged in.</span>
+            <button id="login-btn" class="login-btn">Log In</button>
+            <button id="logout-btn" class="logout-btn" style="display:none;">Log Out</button>
+        </div>
+    </nav>
+
+    <header class="hero" style="background: url('https://dhwuhg3pt7q58.cloudfront.net/images/Divyasree-Republic-Of-Whitefield-Bangalore/banner4.jpeg') center/cover no-repeat; height: 300px;">
+        <div class="hero-content" style="color:white;text-align:center;padding-top:100px;">
+            <h1>Whitefield Workspace</h1>
+            <p>Choose your perfect location in Whitefield for productive work.</p>
+        </div>
+    </header>
+<br>
+ <br>  
+
+    <section id="booking" class="section booking-section">
+        <h2 class="booking-header">Book a Conference Room</h2>
+        <div class="booking-container">
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <button id="prev-month">&lt;</button>
+                    <h3 id="current-month-year"></h3>
+                    <button id="next-month">&gt;</button>
+                </div>
+                <div class="calendar-grid-header">
+                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                </div>
+                <div id="calendar-days" class="calendar-grid"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Manage Bookings Table -->
+    <section id="manage-bookings" class="section">
+ 
+        <div class="manage-bookings-container">
+            <table id="bookings-table">
+                <thead>  
+                </thead>
+                <tbody>
+                    <!-- Bookings will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-login-modal">&times;</span>
+            <h2>Log In</h2>
+            <form id="login-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                <button type="submit">Log In</button>
+                <p class="role-hint">Use "member" or "admin" as username for demo.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-booking-modal">&times;</span>
+            <h2>Book a Meeting Room</h2>
+            <form id="booking-form">
+                <input type="hidden" id="selected-date">
+                <p>Date: <strong id="display-date"></strong></p>
+                <label for="room-select">Select Room:</label>
+                <select id="room-select" required>
+                    <option value="">Select a Room</option>
+                    <option value="Meeting Room A">Meeting Room A (5 people)</option>
+                    <option value="Meeting Room B">Meeting Room B (10 people)</option>
+                    <option value="Meeting Room B">Meeting Room C (15 people)</option>
+                    <option value="Meeting Room B">Meeting Room D (20 people)</option>
+                    <option value="Conference Hall">Conference Hall A (30 people)</option>
+                    <option value="Conference Hall">Conference Hall B (40 people)</option>
+                </select>
+                <div class="room-slots-container" id="room-slots-container"></div>
+                <label for="meeting-title">Meeting Title:</label>
+                <input type="text" id="meeting-title" placeholder="e.g. Q4 Strategy Call" required>
+                <label for="meeting-description">Description:</label>
+                <textarea id="meeting-description" placeholder="Optional details..."></textarea>
+                <button type="submit">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+    
+ <section class="faq-section">
+    <h2 style="text-align:center;">FAQs</h2>
+    <div class="faq-item">
+        <h3>Where is the Whitefield Conference Room located?</h3>
+        <div class="faq-answer">
+            <p>📍 Divyasree Republic of Whitefield, Bangalore, Karnataka, 560066</p>
+            <p>You can easily reach here by metro (Whitefield station) or taxi.</p>
+            <a href="https://www.google.com/maps?q=Divyasree+Republic+of+Whitefield+Bangalore" target="_blank" style="color:#007BFF;text-decoration:underline;">View on Google Maps</a>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <h3>What facilities are provided in the meeting rooms?</h3>
+        <div class="faq-answer">
+            <ul style="list-style:disc; padding-left:20px; color:#444;">
+                <li>High-speed Wi-Fi</li>
+                <li>Projector & Whiteboard</li>
+                <li>Complimentary Tea & Coffee</li>
+                <li>Comfortable seating with AC</li>
+                <li>24x7 Power Backup</li>
+                <li>Reception Assistance</li>
+            </ul>
+        </div>
+        </div>
+
+    <div class="faq-item">
+        <h3>Are meeting rooms available on hourly basis?</h3>
+        <div class="faq-answer">
+            <p>Yes, meeting rooms and private offices can be booked by the hour to match your requirements.</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <h3>Do you provide parking facilities?</h3>
+        <div class="faq-answer">
+            <p>Yes, most of our locations provide dedicated parking for members. Parking availability varies by location.</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <h3>Can I book for multiple days?</h3>
+        <div class="faq-answer">
+            <p>Yes, our booking system allows you to reserve workspaces for multiple consecutive days depending on availability.</p>
+        </div>
+    </div>
+    <div class="faq-item">
+        <h3>What safety measures are followed?</h3>
+        <div class="faq-answer">
+            <p>We follow strict safety protocols including regular sanitization, contactless check-in, and adherence to local COVID-19 guidelines.</p>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section about">
+            <h3>W-Space</h3>
+            <p>Flexible office spaces, coworking, and on-demand solutions to help teams grow and collaborate across India.</p>
+        </div>
+
+        <div class="footer-section links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html#solutions">Solutions</a></li>
+                <li><a href="index.html#locations">Locations</a></li>
+                <li><a href="index.html#amenities">Amenities</a></li>
+                <li><a href="whitefield.html#booking">Book Now</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </div>
+
+     
+        <div class="footer-section contact">
+            <h4>Contact Us</h4>
+            <p><i class="fas fa-map-marker-alt"></i> 123 Business Street, Bengaluru, India</p>
+          <p class="phone"><a class="phone" href="https://www.phone.com/">📞 +91 98765 43210</a></p>
+         <a class="phone" href="https://www.gmail.com/" ><i class="fas fa-envelope"></i> info@wspace.com</p></a> 
+            <div class="social-icons">
+                <a href="https://www.facebook.com/"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+                <a href="https://x.com/?lang=en-in"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+                <a href="https://in.linkedin.com/"><img src="https://tse1.mm.bing.net/th/id/OIP.TBTVLp4-Lym6qNu_5Pp4dwAAAA?w=400&h=400&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Linkdin"></i></a>
+                <a href="https://www.instagram.com/"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 W-Space. All Rights Reserved.</p>
+        <a class="footer-bottom-a" href="privacy.html">Privacy Policy</a> | 
+        <a class="footer-bottom-a" href="terms.html">Terms & Conditions</a>
+    </div>
+</footer>
+
+    <script>
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.querySelector('.faq-answer');
+                answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+            });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--booking calender vaha se hta ke city pe click krne
+ ke baad aana chahiye taki city ki booking ho
+or room detailes or 5 members iss trh ke or seats baki 
+sb page me se loh=gin htana h or jis page pe login ho vaha 
+vo sb krna h login vala-->
