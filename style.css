@@ -208,6 +208,10 @@ body {
     color: var(--primary-color);
     margin-bottom: 0.5rem;
 }
+.amenity-item:hover{
+    transform: translateY(-10px);
+}
+
 
 /* Booking Section */
 .booking-section {
@@ -548,10 +552,14 @@ form button:hover {
 
 .footer-section ul li a:hover {
     color: var(--primary-color);
+        text-decoration: underline;
 }
 .phone{
     color: var(--primary-color);
     text-decoration: none;
+}
+.phone:hover{
+    text-decoration: underline;
 }
 .fas fa-envelope{
     color: black;
@@ -587,6 +595,7 @@ form button:hover {
 }
 .footer-bottom-a:hover{
     color:var(--primary-color);
+        text-decoration:underline;
 }
 /* Responsive */
 @media(max-width:768px){
@@ -621,4 +630,5 @@ form button:hover {
     .social-icons img:hover {
       filter: none;
     }
+
 
