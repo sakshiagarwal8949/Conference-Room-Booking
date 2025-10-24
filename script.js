@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LocalStorage Authentication ---
     const loadAuthState = () => {
-        const storedUser = localStorage.getItem('weworkUser');
+        const storedUser = localStorage.getItem('workspaceUser');
         if (storedUser) {
             loggedInUser = JSON.parse(storedUser);
         }
@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveAuthState = () => {
         if (loggedInUser) {
-            localStorage.setItem('weworkUser', JSON.stringify(loggedInUser));
+            localStorage.setItem('workspaceUser', JSON.stringify(loggedInUser));
         } else {
-            localStorage.removeItem('weworkUser');
+            localStorage.removeItem('workspaceUser');
         }
     };
 
@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
     closeLoginBtn.addEventListener('click', () => loginModal.style.display = 'none');
 
     // --- LocalStorage Bookings ---
-    const getBookings = () => JSON.parse(localStorage.getItem('weworkBookings') || '[]');
-    const saveBookings = (bookings) => localStorage.setItem('weworkBookings', JSON.stringify(bookings));
+    const getBookings = () => JSON.parse(localStorage.getItem('workspaceBookings') || '[]');
+    const saveBookings = (bookings) => localStorage.setItem('workspaceBookings', JSON.stringify(bookings));
 
     // --- Calendar ---
     const renderCalendar = () => {
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 dayNumberSpan.textContent = dayNumber;
                 dayCell.appendChild(dayNumberSpan);
 
-                const cellDateString = cellDate.toISOString().split('T')[0];
+                const cellDateString = cellDate.toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').join('-');
                 const bookingsForThisDate = bookings.filter(b => b.date === cellDateString);
                 const bookedRooms = new Set(bookingsForThisDate.map(b => b.room));
 
